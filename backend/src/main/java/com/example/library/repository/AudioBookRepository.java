@@ -84,8 +84,8 @@ public class AudioBookRepository {
         try (Connection connection = DatabaseManager.getConnection()) {
             String query = "UPDATE audio_books " +
                     "SET electronic_publication_id = COALESCE(?, electronic_publication_id)," +
-                    "book_origin_id = COALESCE(?, book_origin_id) " +
-                    "narrator = COALESCE(?, narrator) " +
+                    "book_origin_id = COALESCE(?, book_origin_id), " +
+                    "narrator = COALESCE(?, narrator), " +
                     "duration = COALESCE(?, duration) " +
                     "WHERE id = ?";
 

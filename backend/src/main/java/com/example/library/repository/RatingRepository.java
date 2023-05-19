@@ -19,9 +19,11 @@ public class RatingRepository {
                     "VALUES (?, ?, ?, NOW()::date)";
 
             PreparedStatement statement = connection.prepareStatement(query);
-            PreparedStatement filledStatement = setRatingFields(statement, rating);
+            statement.setInt(1, rating.getUser_id());
+            statement.setInt(2, rating.getPublication_id());
+            statement.setInt(3, rating.getScore());
 
-            filledStatement.executeUpdate();
+            statement.executeUpdate();
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -88,10 +90,10 @@ public class RatingRepository {
 
 
             PreparedStatement statement = connection.prepareStatement(query);
-            PreparedStatement filledStatement = setRatingFields(statement, rating);
-            filledStatement.setInt(2, userId);
-            filledStatement.setInt(3, publicationId);
-            filledStatement.executeUpdate();
+            statement.setInt(1, rating.getScore());
+            statement.setInt(2, userId);
+            statement.setInt(3, publicationId);
+            statement.executeUpdate();
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -114,13 +116,4 @@ public class RatingRepository {
         }
     }
 
-    public PreparedStatement setRatingFields(PreparedStatement statement, Rating rating) {
-        try {
-            statement.setInt(1, rating.getScore());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return statement;
-    }
 }
