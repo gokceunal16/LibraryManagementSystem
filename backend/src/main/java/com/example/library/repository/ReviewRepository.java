@@ -16,7 +16,7 @@ public class ReviewRepository {
     public void createReview(Review review) {
         try (Connection connection = DatabaseManager.getConnection()) {
             String query = "INSERT INTO reviews(created_at, updated_at, user_id, publication_id, comment) " +
-                    "VALUES (NOW(), NOW(), ?, ?, ?)";
+                    "VALUES (NOW()::timestamptz, NOW()::timestamptz, ?, ?, ?)";
 
             PreparedStatement statement = connection.prepareStatement(query);
             PreparedStatement filledStatement = setReviewFields(statement, review);
@@ -87,17 +87,15 @@ public class ReviewRepository {
     public void updateReview(int id, Review review) {
         try (Connection connection = DatabaseManager.getConnection()) {
             String query = "UPDATE reviews " +
-                    "SET updated_at = NOW()," +
-                    "user_id = COALESCE(?, user_id), " +
-                    "publication_id = COALESCE(?, publication_id), " +
+                    "SET updated_at = NOW()::timestamptz," +
                     "comment = COALESCE(?, comment) " +
                     "WHERE id = ?";
 
             PreparedStatement statement = connection.prepareStatement(query);
-            PreparedStatement filledStatement = setReviewFields(statement, review);
-            filledStatement.setInt(4, id);
+            statement.setString(1, review.getComment());
+            statement.setInt(2, id);
 
-            filledStatement.executeUpdate();
+            statement.executeUpdate();
 
         } catch (SQLException e) {
             e.printStackTrace();

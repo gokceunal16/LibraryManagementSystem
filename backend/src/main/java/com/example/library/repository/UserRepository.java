@@ -16,7 +16,7 @@ public class UserRepository {
     public void createUser(User user) {
         try (Connection connection = DatabaseManager.getConnection()) {
             String query = "INSERT INTO users(created_at, updated_at, first_name, last_name, email, password, phone, city, street, postal_code, role_id) " +
-                    "VALUES (NOW(), NOW(), ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                    "VALUES (NOW()::timestamptz, NOW()::timestamptz, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
             PreparedStatement statement = connection.prepareStatement(query);
             PreparedStatement filledStatement = setUserFields(statement, user);
@@ -99,7 +99,7 @@ public class UserRepository {
     public void updateUser(int id, User user) {
         try (Connection connection = DatabaseManager.getConnection()) {
             String query = "UPDATE users " +
-                    "SET updated_at = NOW()," +
+                    "SET updated_at = NOW()::timestamptz," +
                     "first_name = COALESCE(?, first_name), " +
                     "last_name = COALESCE(?, last_name), " +
                     "email = COALESCE(?, email), " +

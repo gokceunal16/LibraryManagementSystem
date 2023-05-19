@@ -83,7 +83,7 @@ public class RoomRepository {
             String query = "UPDATE rooms " +
                     "SET name = COALESCE(?, name), " +
                     "capacity = COALESCE(?, capacity), " +
-                    "location = COALESCE(?, location), " +
+                    "location = COALESCE(?, location) " +
                     "WHERE id = ?";
 
             PreparedStatement statement = connection.prepareStatement(query);

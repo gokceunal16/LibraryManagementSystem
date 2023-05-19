@@ -11,7 +11,7 @@ import java.util.Arrays;
 public class GenericService {
     private final GenericRepository genericRepository;
     // keep the name of the tables that implements soft delete in an arraylist
-    private static final ArrayList<String> softDeletes = new ArrayList<>(Arrays.asList("users", "reservations", "reviews"));
+    private static final ArrayList<String> softDeletes = new ArrayList<>(Arrays.asList("user", "reservation", "review"));
     @Autowired
     public GenericService(GenericRepository genericRepository) {
         this.genericRepository = genericRepository;

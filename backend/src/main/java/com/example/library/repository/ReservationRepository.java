@@ -16,7 +16,7 @@ public class ReservationRepository {
     public void createReservation(Reservation reservation) {
         try (Connection connection = DatabaseManager.getConnection()) {
             String query = "INSERT INTO reservations(created_at, updated_at, user_id, time_slot_id, room_id, date) " +
-                    "VALUES (NOW(), NOW(), ?, ?, ?, ?)";
+                    "VALUES (NOW()::timestamptz, NOW()::timestamptz, ?, ?, ?, ?)";
 
             PreparedStatement statement = connection.prepareStatement(query);
             PreparedStatement filledStatement = setReservationFields(statement, reservation);
@@ -89,7 +89,7 @@ public class ReservationRepository {
     public void updateReservation(int id, Reservation reservation) {
         try (Connection connection = DatabaseManager.getConnection()) {
             String query = "UPDATE reservations " +
-                    "SET updated_at = NOW()," +
+                    "SET updated_at = NOW()::timestamptz," +
                     "user_id = COALESCE(?, user_id), " +
                     "time_slot_id = COALESCE(?, time_slot_id), " +
                     "room_id = COALESCE(?, room_id), " +

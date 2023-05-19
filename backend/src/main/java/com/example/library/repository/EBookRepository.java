@@ -15,7 +15,7 @@ public class EBookRepository {
 
     public void createEBook(EBook e_book) {
         try (Connection connection = DatabaseManager.getConnection()) {
-            String query = "INSERT INTO ebooks(electronic_publication_id, book_origin_id) " +
+            String query = "INSERT INTO e_books(electronic_publication_id, book_origin_id) " +
                     "VALUES (?, ?)";
 
             PreparedStatement statement = connection.prepareStatement(query);
