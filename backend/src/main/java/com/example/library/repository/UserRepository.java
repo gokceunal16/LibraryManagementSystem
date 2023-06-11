@@ -13,8 +13,8 @@ import java.util.Optional;
 @Repository
 public class UserRepository {
 
-    public void createUser(User user) {
-        try (Connection connection = DatabaseManager.getConnection()) {
+    public void createUser(User user) throws SQLException {
+         Connection connection = DatabaseManager.getConnection();
             String query = "INSERT INTO users(created_at, updated_at, first_name, last_name, email, password, phone, city, street, postal_code, role_id) " +
                     "VALUES (NOW()::timestamptz, NOW()::timestamptz, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
@@ -23,9 +23,6 @@ public class UserRepository {
 
             filledStatement.executeUpdate();
 
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
     }
 
     public List<User> getUsers() {
@@ -69,6 +66,40 @@ public class UserRepository {
             String query = "SELECT * from users WHERE id = ?";
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setInt(1, id);
+
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                user = new User(resultSet.getInt("id"),
+                        resultSet.getTimestamp("created_at"),
+                        resultSet.getTimestamp("updated_at"),
+                        resultSet.getTimestamp("deleted_at"),
+                        resultSet.getString("first_name"),
+                        resultSet.getString("last_name"),
+                        resultSet.getString("email"),
+                        resultSet.getString("password"),
+                        resultSet.getString("phone"),
+                        resultSet.getString("city"),
+                        resultSet.getString("street"),
+                        resultSet.getInt("postal_code"),
+                        resultSet.getInt("role_id")
+                );
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return user;
+    }
+
+    public User findByEmail(String email) {
+        User user = null;
+
+        try (Connection connection = DatabaseManager.getConnection()) {
+            String query = "SELECT * from users WHERE email = ?";
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setString(1, email);
 
             ResultSet resultSet = statement.executeQuery();
 

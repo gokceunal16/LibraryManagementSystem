@@ -29,12 +29,20 @@ public class ReservationRepository {
     }
 
     public List<Reservation> getReservations() {
+        String query = "SELECT * FROM reservations";
+        return getReservations(query);
+    }
+
+    public List<Reservation> getReservations(int user_id) {
+        String query = String.format("SELECT * FROM reservations WHERE user_id = %d ", user_id);
+        return getReservations(query);
+    }
+
+    public List<Reservation> getReservations(String query) {
         List<Reservation> reservations = new ArrayList<>();
 
         try (Connection connection = DatabaseManager.getConnection()) {
-            String query = "SELECT * FROM reservations";
             PreparedStatement statement = connection.prepareStatement(query);
-
             ResultSet resultSet = statement.executeQuery();
 
             while (resultSet.next()) {

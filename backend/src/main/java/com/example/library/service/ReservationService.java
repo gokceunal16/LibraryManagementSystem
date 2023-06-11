@@ -24,6 +24,10 @@ public class ReservationService {
         return reservationRepository.getReservations();
     }
 
+    public List<Reservation> getReservations(int user_id) {
+        return reservationRepository.getReservations(user_id);
+    }
+
     public Reservation findById(int id) {
         return reservationRepository.findById(id);
     }
