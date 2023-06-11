@@ -4,7 +4,7 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import TableService from "../services/TableService";
+import Services from "../services/Services";
 import {useEffect, useState} from "react";
 import TableOperations from "../services/TableOperations";
 
@@ -39,7 +39,7 @@ const TabsComponent = () => {
     const [value, setValue] = useState(0);
     const [tableNames, setTableNames] = useState([]);
     useEffect(() => {
-        TableService.getTableNames().then(response => {
+        Services.getTableNames().then(response => {
             console.log(response.data)
             setTableNames(response.data);
 

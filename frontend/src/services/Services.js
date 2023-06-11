@@ -1,8 +1,10 @@
 import axios from 'axios';
+import {useAuth} from "../utils/hooks/useAuth";
 
 const BASE_URL = 'http://localhost:8080'; // Update with your backend URL
 
-const TableService = {
+const Services = {
+
 
     getTableNames:()=>{
         return axios.get(`${BASE_URL}/tables`);
@@ -24,6 +26,15 @@ const TableService = {
         return axios.delete(`${BASE_URL}/${tableName}/${recordId}`);
     },
 
+
+    getCounts: (token) => {
+        return axios.get(`${BASE_URL}/dashboard/counts`,{
+            headers: {
+                Authorization: 'Bearer ' + token
+            }
+        })
+    },
+
 };
 
-export default TableService;
+export default Services;

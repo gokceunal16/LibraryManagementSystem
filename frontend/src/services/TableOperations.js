@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import TableService from "./TableService";
+import Services from "./Services";
 import Table from "../components/Table";
 
 const TableOperations = (props) => {
@@ -13,7 +13,7 @@ const TableOperations = (props) => {
     }
     useEffect(() => {
         // declare the data fetching function
-        TableService.getTable(props.tableName)
+        Services.getTable(props.tableName)
             .then((res) => {
                 console.log(res.data);
                 setList(res.data);

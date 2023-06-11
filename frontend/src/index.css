@@ -1,0 +1,81 @@
+body {
+    margin: 0;
+}
+.reservation-matrix {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+.time-slots {
+    display: flex;
+}
+
+.empty-cell,
+.room-header {
+    width: 100px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+}
+
+.time-slot-row {
+    display: flex;
+}
+
+.time-slot-header {
+    width: 100px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+}
+
+.room-cell {
+    width: 100px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+}
+
+.room-cell.available {
+    background-color: #b8e994;
+}
+
+.room-cell.unavailable {
+    background-color: #f78fb3;
+}
+
+.book-button {
+    padding: 5px 10px;
+}
+
+@media (max-width: 768px) {
+    .empty-cell,
+    .room-header,
+    .time-slot-header,
+    .room-cell {
+        width: 80px;
+    }
+}
+.room-names-list .ant-list-item {
+    padding: 8px 16px;
+}
+.room-names-list .ant-avatar {
+    font-size: 14px;
+}
+.room-names-list .ant-list-item-meta-title {
+    font-size: 14px;
+}
+

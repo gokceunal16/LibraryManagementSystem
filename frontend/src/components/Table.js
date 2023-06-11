@@ -7,7 +7,7 @@ import {
     Tooltip,
 } from '@mui/material';
 import {Delete, Edit} from '@mui/icons-material';
-import TableService from "../services/TableService";
+import Services from "../services/Services";
 import CreateNewRecord from "./CreateNewRecord";
 
 const Table = (props) => {
@@ -23,7 +23,7 @@ const Table = (props) => {
 
     const handleCreateNewRow = (values) => {
         console.log("author", values);
-        TableService.addRecord(props.tableName.slice(0, -1), values).then(() => {
+        Services.addRecord(props.tableName.slice(0, -1), values).then(() => {
             props.handleUpdate()
         });
     };
@@ -32,7 +32,7 @@ const Table = (props) => {
         if (!Object.keys(validationErrors).length) {
             tableData[row.index] = values;
             //send/receive api updates here, then refetch or update local table data for re-render
-            TableService.updateRecord(props.tableName.slice(0, -1), row.getValue('id'), values).then(() => {
+            Services.updateRecord(props.tableName.slice(0, -1), row.getValue('id'), values).then(() => {
                 props.handleUpdate()
             })
             exitEditingMode(); //required to exit editing mode and close modal
@@ -51,7 +51,7 @@ const Table = (props) => {
             ) {
                 return;
             }
-            TableService.deleteRecord(props.tableName.slice(0, -1), row.getValue('id')).then(() => {
+            Services.deleteRecord(props.tableName.slice(0, -1), row.getValue('id')).then(() => {
                 props.handleUpdate()
             })
 
