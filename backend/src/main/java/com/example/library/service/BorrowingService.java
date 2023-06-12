@@ -24,6 +24,10 @@ public class BorrowingService {
         return borrowingRepository.getBorrowings();
     }
 
+    public List<Borrowing> getBorrowings(int user_id) {
+        return borrowingRepository.getBorrowings(user_id);
+    }
+
     public Borrowing findById(int id) {
         return borrowingRepository.findById(id);
     }

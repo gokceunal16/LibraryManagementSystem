@@ -3,6 +3,7 @@ package com.example.library.repository;
 import com.example.library.entity.Author;
 import com.example.library.entity.Borrowing;
 import com.example.library.entity.Borrowing;
+import com.example.library.entity.Reservation;
 import org.springframework.stereotype.Repository;
 
 import java.sql.*;
@@ -29,10 +30,19 @@ public class BorrowingRepository {
     }
 
     public List<Borrowing> getBorrowings() {
+        String query = "SELECT * FROM borrowings";
+        return getBorrowings(query);
+    }
+
+    public List<Borrowing> getBorrowings(int user_id) {
+        String query = String.format("SELECT * FROM borrowings WHERE user_id = %d ORDER BY loan_date DESC", user_id);
+        return getBorrowings(query);
+    }
+
+    public List<Borrowing> getBorrowings(String query) {
         List<Borrowing> borrowings = new ArrayList<>();
 
         try (Connection connection = DatabaseManager.getConnection()) {
-            String query = "SELECT * FROM borrowings";
             PreparedStatement statement = connection.prepareStatement(query);
 
             ResultSet resultSet = statement.executeQuery();
