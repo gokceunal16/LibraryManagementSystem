@@ -3,6 +3,7 @@ package com.example.library.repository;
 import com.example.library.entity.Author;
 import com.example.library.entity.Reservation;
 import com.example.library.entity.Reservation;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.stereotype.Repository;
 
@@ -30,6 +31,7 @@ public class ReservationRepository {
     }
 
     @Data
+    @AllArgsConstructor
     public static class ReservationDto {
         private int id;
         private Timestamp created_at;
@@ -43,20 +45,6 @@ public class ReservationRepository {
         private Time end_time;
         private String room_name;
 
-
-        public ReservationDto(int id, Timestamp created_at, Timestamp updated_at, Timestamp deleted_at, int user_id, int time_slot_id, int room_id, Date date, Time start_time, Time end_time, String room_name) {
-            this.id = id;
-            this.created_at = created_at;
-            this.updated_at = updated_at;
-            this.deleted_at = deleted_at;
-            this.user_id = user_id;
-            this.time_slot_id = time_slot_id;
-            this.room_id = room_id;
-            this.date = date;
-            this.start_time = start_time;
-            this.end_time = end_time;
-            this.room_name = room_name;
-        }
     }
 
     public List<Object> getReservations() {

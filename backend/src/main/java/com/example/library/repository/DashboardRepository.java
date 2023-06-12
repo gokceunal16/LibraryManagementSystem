@@ -2,6 +2,7 @@ package com.example.library.repository;
 
 import com.example.library.entity.EBook;
 import com.example.library.entity.Room;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.stereotype.Repository;
 
@@ -170,16 +171,11 @@ public class DashboardRepository {
 
 
     @Data
+    @AllArgsConstructor
     public static class PublicationScore {
         int publication_id;
         String title;
         float average_score;
-
-        public PublicationScore(int publication_id, String title, float average_score) {
-            this.publication_id = publication_id;
-            this.title = title;
-            this.average_score = average_score;
-        }
     }
 
     public List<PublicationScore> getHighestRatedPublications() {

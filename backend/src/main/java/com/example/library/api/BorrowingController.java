@@ -28,14 +28,14 @@ public class BorrowingController {
 
     @GetMapping(value = "/borrowings")
     @ResponseBody
-    public List<Borrowing> getBorrowings(){
+    public List<Object> getBorrowings(){
 
         return borrowingService.getBorrowings();
     }
 
     @GetMapping(value = "user/borrowings")
     @ResponseBody
-    public List<Borrowing> getBorrowingsByUserId(@RequestHeader("Authorization") String token){
+    public List<Object> getBorrowingsByUserId(@RequestHeader("Authorization") String token){
         int user_id = jwtService.extractUserId(token.substring(7));
         return borrowingService.getBorrowings(user_id);
     }

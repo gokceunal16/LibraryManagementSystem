@@ -20,11 +20,11 @@ public class BorrowingService {
         borrowingRepository.createBorrowing(borrowing);
     }
 
-    public List<Borrowing> getBorrowings() {
+    public List<Object> getBorrowings() {
         return borrowingRepository.getBorrowings();
     }
 
-    public List<Borrowing> getBorrowings(int user_id) {
+    public List<Object> getBorrowings(int user_id) {
         return borrowingRepository.getBorrowings(user_id);
     }
 
