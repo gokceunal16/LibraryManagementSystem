@@ -50,7 +50,8 @@ public class ReservationRepository {
     public List<Object> getReservations() {
         String query = "SELECT re.*, ts.start_time, ts.end_time, ro.name as room_name FROM reservations re " +
                 "INNER JOIN time_slots ts on re.time_slot_id = ts.id " +
-                "INNER JOIN rooms ro on ro.id = re.room_id ";
+                "INNER JOIN rooms ro on ro.id = re.room_id " +
+                "ORDER BY re.DESC";
         return getReservations(query);
     }
 
