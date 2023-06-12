@@ -3,6 +3,7 @@ package com.example.library.repository;
 import com.example.library.entity.Author;
 import com.example.library.entity.Reservation;
 import com.example.library.entity.Reservation;
+import lombok.Data;
 import org.springframework.stereotype.Repository;
 
 import java.sql.*;
@@ -28,32 +29,70 @@ public class ReservationRepository {
         }
     }
 
-    public List<Reservation> getReservations() {
-        String query = "SELECT * FROM reservations";
+    @Data
+    public static class ReservationDto {
+        private int id;
+        private Timestamp created_at;
+        private Timestamp updated_at;
+        private Timestamp deleted_at;
+        private int user_id;
+        private int time_slot_id;
+        private int room_id;
+        private Date date;
+        private Time start_time;
+        private Time end_time;
+        private String room_name;
+
+
+        public ReservationDto(int id, Timestamp created_at, Timestamp updated_at, Timestamp deleted_at, int user_id, int time_slot_id, int room_id, Date date, Time start_time, Time end_time, String room_name) {
+            this.id = id;
+            this.created_at = created_at;
+            this.updated_at = updated_at;
+            this.deleted_at = deleted_at;
+            this.user_id = user_id;
+            this.time_slot_id = time_slot_id;
+            this.room_id = room_id;
+            this.date = date;
+            this.start_time = start_time;
+            this.end_time = end_time;
+            this.room_name = room_name;
+        }
+    }
+
+    public List<Object> getReservations() {
+        String query = "SELECT re.*, ts.start_time, ts.end_time, ro.name as room_name FROM reservations re " +
+                "INNER JOIN time_slots ts on re.time_slot_id = ts.id " +
+                "INNER JOIN rooms ro on ro.id = re.room_id ";
         return getReservations(query);
     }
 
-    public List<Reservation> getReservations(int user_id) {
-        String query = String.format("SELECT * FROM reservations WHERE user_id = %d ", user_id);
+    public List<Object> getReservations(int user_id) {
+        String query = String.format("SELECT re.*, ts.start_time, ts.end_time, ro.name as room_name FROM reservations re " +
+                "INNER JOIN time_slots ts on re.time_slot_id = ts.id " +
+                "INNER JOIN rooms ro on ro.id = re.room_id " +
+                "WHERE re.user_id = %d ", user_id);
         return getReservations(query);
     }
 
-    public List<Reservation> getReservations(String query) {
-        List<Reservation> reservations = new ArrayList<>();
+    public List<Object> getReservations(String query) {
+        List<Object> reservations = new ArrayList<>();
 
         try (Connection connection = DatabaseManager.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(query);
             ResultSet resultSet = statement.executeQuery();
 
             while (resultSet.next()) {
-                Reservation reservation = new Reservation(resultSet.getInt("id"),
+                ReservationDto reservation = new ReservationDto(resultSet.getInt("id"),
                         resultSet.getTimestamp("created_at"),
                         resultSet.getTimestamp("updated_at"),
                         resultSet.getTimestamp("deleted_at"),
                         resultSet.getInt("user_id"),
                         resultSet.getInt("time_slot_id"),
                         resultSet.getInt("room_id"),
-                        resultSet.getDate("date")
+                        resultSet.getDate("date"),
+                        resultSet.getTime("start_time"),
+                        resultSet.getTime("end_time"),
+                        resultSet.getString("room_name")
                 );
                 reservations.add(reservation);
             }

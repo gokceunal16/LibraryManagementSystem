@@ -20,11 +20,11 @@ public class ReservationService {
         reservationRepository.createReservation(reservation);
     }
 
-    public List<Reservation> getReservations() {
+    public List<Object> getReservations() {
         return reservationRepository.getReservations();
     }
 
-    public List<Reservation> getReservations(int user_id) {
+    public List<Object> getReservations(int user_id) {
         return reservationRepository.getReservations(user_id);
     }
 

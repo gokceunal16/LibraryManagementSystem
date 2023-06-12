@@ -32,14 +32,14 @@ public class ReservationController {
 
     @GetMapping(value = "reservations")
     @ResponseBody
-    public List<Reservation> getReservations(){
+    public List<Object> getReservations(){
 
         return reservationService.getReservations();
     }
 
     @GetMapping(value = "user/reservations")
     @ResponseBody
-    public List<Reservation> getReservationsByUserId(@RequestHeader("Authorization") String token){
+    public List<Object> getReservationsByUserId(@RequestHeader("Authorization") String token){
         int user_id = jwtService.extractUserId(token.substring(7));
         return reservationService.getReservations(user_id);
     }
