@@ -199,8 +199,6 @@ create table publications
 alter table publications
     add image_name varchar;
 
-alter table publications
-    add image_name varchar;
 
 create index publications_genre_id_index
     on publications (genre_id);
@@ -384,11 +382,11 @@ CREATE PROCEDURE fill_time_slots()
 AS
 $$
 BEGIN
-    INSERT INTO time_slots (start_time, end_time)
-    SELECT date_trunc('hour', generate_series)::time                     AS start_time,
-           date_trunc('hour', generate_series)::time + interval '1 hour' AS end_time
-    FROM generate_series('2023-04-22 00:00:00'::timestamp, '2023-04-22 23:59:00'::timestamp,
-                         '1 hour') AS generate_series;
+INSERT INTO time_slots (start_time, end_time)
+SELECT date_trunc('hour', generate_series)::time                     AS start_time,
+        date_trunc('hour', generate_series)::time + interval '1 hour' AS end_time
+FROM generate_series('2023-04-22 00:00:00'::timestamp, '2023-04-22 23:59:00'::timestamp,
+    '1 hour') AS generate_series;
 END;
 $$;
 
@@ -400,8 +398,8 @@ CREATE PROCEDURE insert_user(_first_name varchar, _last_name varchar, _email var
 AS
 $$
 BEGIN
-    INSERT INTO users (created_at, updated_at, first_name, last_name, email, password, phone, city, street, postal_code, role_id)
-    VALUES (NOW(), NOW(), _first_name, _last_name, _email, _password, _phone, _city, _street, _postal_code, _role_id);
+INSERT INTO users (created_at, updated_at, first_name, last_name, email, password, phone, city, street, postal_code, role_id)
+VALUES (NOW(), NOW(), _first_name, _last_name, _email, _password, _phone, _city, _street, _postal_code, _role_id);
 END;
 $$;
 
@@ -412,8 +410,8 @@ CREATE PROCEDURE insert_user_role(_name varchar)
 AS
 $$
 BEGIN
-    INSERT INTO user_roles (name)
-    VALUES (_name);
+INSERT INTO user_roles (name)
+VALUES (_name);
 END;
 $$;
 
@@ -423,8 +421,8 @@ CREATE PROCEDURE insert_room(_name varchar, _capacity int, _location int)
 AS
 $$
 BEGIN
-    INSERT INTO rooms (name, capacity, location)
-    VALUES (_name, _capacity, _location);
+INSERT INTO rooms (name, capacity, location)
+VALUES (_name, _capacity, _location);
 END;
 $$;
 
@@ -435,8 +433,8 @@ CREATE PROCEDURE insert_review(_user_id int, _publication_id int, _comment varch
 AS
 $$
 BEGIN
-    INSERT INTO reviews (created_at, updated_at, user_id, publication_id, comment)
-    VALUES (NOW(), NOW(), _user_id, _publication_id, _comment);
+INSERT INTO reviews (created_at, updated_at, user_id, publication_id, comment)
+VALUES (NOW(), NOW(), _user_id, _publication_id, _comment);
 END;
 $$;
 
@@ -447,8 +445,8 @@ CREATE PROCEDURE insert_reservation(_user_id int, _time_slot_id int, _room_id in
 AS
 $$
 BEGIN
-    INSERT INTO reservations (created_at, updated_at, user_id, time_slot_id, room_id, date)
-    VALUES (NOW(), NOW(), _user_id, _time_slot_id, _room_id, _date::date);
+INSERT INTO reservations (created_at, updated_at, user_id, time_slot_id, room_id, date)
+VALUES (NOW(), NOW(), _user_id, _time_slot_id, _room_id, _date::date);
 END;
 $$;
 
@@ -458,8 +456,8 @@ CREATE PROCEDURE insert_rating(_user_id int, _publication_id int, _score int, _d
 AS
 $$
 BEGIN
-    INSERT INTO ratings (user_id, publication_id, score, date)
-    VALUES (_user_id, _publication_id, _score, _date::date);
+INSERT INTO ratings (user_id, publication_id, score, date)
+VALUES (_user_id, _publication_id, _score, _date::date);
 END;
 $$;
 
@@ -470,8 +468,8 @@ CREATE PROCEDURE insert_publisher(_name varchar, _local_address varchar, _city v
 AS
 $$
 BEGIN
-    INSERT INTO publishers (name, local_address, city, country, phone, email)
-    VALUES (_name, _local_address, _city, _country, _phone, _email);
+INSERT INTO publishers (name, local_address, city, country, phone, email)
+VALUES (_name, _local_address, _city, _country, _phone, _email);
 END;
 $$;
 
@@ -483,8 +481,8 @@ CREATE PROCEDURE insert_publication(_title varchar, _genre_id int, _publisher_id
 AS
 $$
 BEGIN
-    INSERT INTO publications (title, genre_id, publisher_id, language_id, translator, publish_date, description)
-    VALUES (_title, _genre_id, _publisher_id, _language_id, _translator, _publish_date::date, _description);
+INSERT INTO publications (title, genre_id, publisher_id, language_id, translator, publish_date, description)
+VALUES (_title, _genre_id, _publisher_id, _language_id, _translator, _publish_date::date, _description);
 END;
 $$;
 
@@ -496,8 +494,8 @@ CREATE PROCEDURE insert_audio_book(_electronic_publication_id int, _book_origin_
 AS
 $$
 BEGIN
-    INSERT INTO audio_books (electronic_publication_id, book_origin_id, narrator, duration)
-    VALUES (_electronic_publication_id, _book_origin_id, _narrator, _duration);
+INSERT INTO audio_books (electronic_publication_id, book_origin_id, narrator, duration)
+VALUES (_electronic_publication_id, _book_origin_id, _narrator, _duration);
 END;
 $$;
 
@@ -508,8 +506,8 @@ CREATE PROCEDURE insert_author(_first_name varchar, _last_name varchar, _date_of
 AS
 $$
 BEGIN
-    INSERT INTO authors (first_name, last_name, date_of_birth, nationality, biography)
-    VALUES (_first_name, _last_name, _date_of_birth::date, _nationality, _biography);
+INSERT INTO authors (first_name, last_name, date_of_birth, nationality, biography)
+VALUES (_first_name, _last_name, _date_of_birth::date, _nationality, _biography);
 END;
 $$;
 
@@ -519,8 +517,8 @@ CREATE PROCEDURE insert_book_origin(_author_id int, _name varchar)
 AS
 $$
 BEGIN
-    INSERT INTO book_origins (author_id, name)
-    VALUES (_author_id, _name);
+INSERT INTO book_origins (author_id, name)
+VALUES (_author_id, _name);
 END;
 $$;
 
@@ -530,8 +528,8 @@ CREATE PROCEDURE insert_borrowing(_user_id int, _publication_id int, _loan_date 
 AS
 $$
 BEGIN
-    INSERT INTO borrowings (user_id, publication_id, loan_date, return_date)
-    VALUES (_user_id, _publication_id, _loan_date::timestamptz, _return_date::timestamptz);
+INSERT INTO borrowings (user_id, publication_id, loan_date, return_date)
+VALUES (_user_id, _publication_id, _loan_date::timestamptz, _return_date::timestamptz);
 END;
 $$;
 
@@ -541,8 +539,8 @@ CREATE PROCEDURE insert_e_book(_electronic_publication_id int, _book_origin_id i
 AS
 $$
 BEGIN
-    INSERT INTO e_books (electronic_publication_id, book_origin_id)
-    VALUES (_electronic_publication_id, _book_origin_id);
+INSERT INTO e_books (electronic_publication_id, book_origin_id)
+VALUES (_electronic_publication_id, _book_origin_id);
 END;
 $$;
 
@@ -552,8 +550,8 @@ CREATE PROCEDURE insert_electronic_publication(_link varchar, _size int, _public
 AS
 $$
 BEGIN
-    INSERT INTO electronic_publications (link, size, publication_id)
-    VALUES (_link, _size, _publication_id);
+INSERT INTO electronic_publications (link, size, publication_id)
+VALUES (_link, _size, _publication_id);
 END;
 $$;
 
@@ -563,8 +561,8 @@ CREATE PROCEDURE insert_genre(_name varchar, _description varchar)
 AS
 $$
 BEGIN
-    INSERT INTO genres (name, description)
-    VALUES (_name, _description);
+INSERT INTO genres (name, description)
+VALUES (_name, _description);
 END;
 $$;
 
@@ -574,8 +572,8 @@ CREATE PROCEDURE insert_language(_name varchar)
 AS
 $$
 BEGIN
-    INSERT INTO languages (name)
-    VALUES (_name);
+INSERT INTO languages (name)
+VALUES (_name);
 END;
 $$;
 
@@ -585,8 +583,8 @@ CREATE PROCEDURE insert_material(_physical_publication_id int, _format varchar)
 AS
 $$
 BEGIN
-    INSERT INTO materials (physical_publication_id, format)
-    VALUES (_physical_publication_id, _format);
+INSERT INTO materials (physical_publication_id, format)
+VALUES (_physical_publication_id, _format);
 END;
 $$;
 
@@ -596,8 +594,8 @@ CREATE PROCEDURE insert_newspaper(_physical_publication_id int, _publication_fre
 AS
 $$
 BEGIN
-    INSERT INTO newspapers (physical_publication_id, publication_frequency, circulation)
-    VALUES (_physical_publication_id, _publication_frequency, _circulation);
+INSERT INTO newspapers (physical_publication_id, publication_frequency, circulation)
+VALUES (_physical_publication_id, _publication_frequency, _circulation);
 END;
 $$;
 
@@ -607,8 +605,8 @@ CREATE PROCEDURE insert_physical_book(_physical_publication_id int, _book_origin
 AS
 $$
 BEGIN
-    INSERT INTO physical_books (physical_publication_id, book_origin_id, page_number)
-    VALUES (_physical_publication_id, _book_origin_id, _page_number);
+INSERT INTO physical_books (physical_publication_id, book_origin_id, page_number)
+VALUES (_physical_publication_id, _book_origin_id, _page_number);
 END;
 $$;
 
@@ -619,8 +617,8 @@ CREATE PROCEDURE insert_physical_publication(_floor_number int, _section_number 
 AS
 $$
 BEGIN
-    INSERT INTO physical_publications (floor_number, section_number, shelf_number, publication_id)
-    VALUES (_floor_number, _section_number, _shelf_number, _publication_id);
+INSERT INTO physical_publications (floor_number, section_number, shelf_number, publication_id)
+VALUES (_floor_number, _section_number, _shelf_number, _publication_id);
 END;
 $$;
 
@@ -633,8 +631,8 @@ CREATE PROCEDURE insert_notification_request(
 AS
 $$
 BEGIN
-    INSERT INTO publication_available_notification_requests(user_id, publication_id)
-    VALUES (_user_id, _publication_id);
+INSERT INTO publication_available_notification_requests(user_id, publication_id)
+VALUES (_user_id, _publication_id);
 END;
 $$;
 
@@ -647,18 +645,18 @@ CREATE PROCEDURE update_user(_id int, _first_name varchar, _last_name varchar, _
 AS
 $$
 BEGIN
-    UPDATE users
-    SET updated_at  = NOW(),
-        first_name  = COALESCE(_first_name, first_name),
-        last_name   = COALESCE(_last_name, last_name),
-        email       = COALESCE(_email, email),
-        password    = COALESCE(_password, password),
-        phone       = COALESCE(_phone, phone),
-        city        = COALESCE(_city, city),
-        street      = COALESCE(_street, street),
-        postal_code = COALESCE(_postal_code, postal_code),
-        role_id     = COALESCE(_role_id, role_id)
-    WHERE id = _id;
+UPDATE users
+SET updated_at  = NOW(),
+    first_name  = COALESCE(_first_name, first_name),
+    last_name   = COALESCE(_last_name, last_name),
+    email       = COALESCE(_email, email),
+    password    = COALESCE(_password, password),
+    phone       = COALESCE(_phone, phone),
+    city        = COALESCE(_city, city),
+    street      = COALESCE(_street, street),
+    postal_code = COALESCE(_postal_code, postal_code),
+    role_id     = COALESCE(_role_id, role_id)
+WHERE id = _id;
 END;
 $$;
 
@@ -669,8 +667,8 @@ CREATE PROCEDURE update_user_role(_id int, _name varchar)
 AS
 $$
 BEGIN
-    UPDATE user_roles
-    SET name = _name
+UPDATE user_roles
+SET name = _name
     WHERE id = _id;
 END;
 $$;
@@ -682,10 +680,10 @@ CREATE PROCEDURE update_room(_id int, _name varchar, _capacity int, _location va
 AS
 $$
 BEGIN
-    UPDATE rooms
-    SET name     = COALESCE(_name, name),
-        capacity = COALESCE(_capacity, capacity)
-    WHERE id = _id;
+UPDATE rooms
+SET name     = COALESCE(_name, name),
+    capacity = COALESCE(_capacity, capacity)
+WHERE id = _id;
 END;
 $$;
 
@@ -696,9 +694,9 @@ CREATE PROCEDURE update_review(_id int, _comment varchar)
 AS
 $$
 BEGIN
-    UPDATE reviews
-    SET updated_at = NOW(),
-        comment    = _comment
+UPDATE reviews
+SET updated_at = NOW(),
+    comment    = _comment
     WHERE id = _id;
 END;
 $$;
@@ -710,12 +708,12 @@ CREATE PROCEDURE update_reservation(_id int, _time_slot_id int, _room_id int, _d
 AS
 $$
 BEGIN
-    UPDATE reservations
-    SET updated_at   = NOW(),
-        time_slot_id = COALESCE(_time_slot_id, time_slot_id),
-        room_id      = COALESCE(_room_id, room_id),
-        date         = COALESCE(_date, date)::date
-    WHERE id = _id;
+UPDATE reservations
+SET updated_at   = NOW(),
+    time_slot_id = COALESCE(_time_slot_id, time_slot_id),
+    room_id      = COALESCE(_room_id, room_id),
+    date         = COALESCE(_date, date)::date
+WHERE id = _id;
 END;
 $$;
 
@@ -727,9 +725,9 @@ CREATE PROCEDURE update_rating(_user_id int, _publication_id int, _score int)
 AS
 $$
 BEGIN
-    UPDATE ratings
-    SET date   = NOW(),
-        score = _score
+UPDATE ratings
+SET date   = NOW(),
+    score = _score
     WHERE user_id = _user_id AND publication_id = _publication_id;
 END;
 $$;
@@ -741,14 +739,14 @@ CREATE PROCEDURE update_publisher(_id int, _name varchar, _local_address varchar
 AS
 $$
 BEGIN
-    UPDATE publishers
-    SET name = COALESCE(_name, name),
-        local_address = COALESCE(_local_address, local_address),
-        city = COALESCE(_city, city),
-        country = COALESCE(_country, country),
-        phone = COALESCE(_phone, phone),
-        email = COALESCE(_email, email)
-    WHERE id = _id;
+UPDATE publishers
+SET name = COALESCE(_name, name),
+    local_address = COALESCE(_local_address, local_address),
+    city = COALESCE(_city, city),
+    country = COALESCE(_country, country),
+    phone = COALESCE(_phone, phone),
+    email = COALESCE(_email, email)
+WHERE id = _id;
 END;
 $$;
 
@@ -759,15 +757,15 @@ CREATE PROCEDURE update_publication(_id int, _title varchar, _genre_id int, _pub
 AS
 $$
 BEGIN
-    UPDATE publications
-    SET title = COALESCE(_title, title),
-        genre_id = COALESCE(_genre_id, genre_id),
-        publisher_id = COALESCE(_publisher_id, publisher_id),
-        language_id = COALESCE(_language_id, language_id),
-        translator = COALESCE(-_translator, translator),
-        publish_date = COALESCE(_publish_date, publish_date)::date,
+UPDATE publications
+SET title = COALESCE(_title, title),
+    genre_id = COALESCE(_genre_id, genre_id),
+    publisher_id = COALESCE(_publisher_id, publisher_id),
+    language_id = COALESCE(_language_id, language_id),
+    translator = COALESCE(-_translator, translator),
+    publish_date = COALESCE(_publish_date, publish_date)::date,
         description = COALESCE(_description, description)
-    WHERE id = _id;
+WHERE id = _id;
 END;
 $$;
 
@@ -778,11 +776,11 @@ CREATE PROCEDURE update_physical_publication(_id int, _floor_number int, _sectio
 AS
 $$
 BEGIN
-    UPDATE physical_publications
-    SET floor_number = COALESCE(_floor_number, floor_number),
-        section_number  = COALESCE(_section_number, section_number),
-        shelf_number  = COALESCE(_shelf_number, shelf_number)
-    WHERE id = _id;
+UPDATE physical_publications
+SET floor_number = COALESCE(_floor_number, floor_number),
+    section_number  = COALESCE(_section_number, section_number),
+    shelf_number  = COALESCE(_shelf_number, shelf_number)
+WHERE id = _id;
 END;
 $$;
 
@@ -792,8 +790,8 @@ CREATE PROCEDURE update_physical_book(_id int, _page_number int)
 AS
 $$
 BEGIN
-    UPDATE physical_books
-    SET page_number = _page_number
+UPDATE physical_books
+SET page_number = _page_number
     WHERE id = _id;
 END;
 $$;
@@ -805,10 +803,10 @@ CREATE PROCEDURE update_newspaper(_id int, _publication_frequency varchar, _circ
 AS
 $$
 BEGIN
-    UPDATE newspapers
-    SET publication_frequency = COALESCE(_publication_frequency, publication_frequency),
-        circulation = COALESCE(_circulation, circulation)
-    WHERE id = _id;
+UPDATE newspapers
+SET publication_frequency = COALESCE(_publication_frequency, publication_frequency),
+    circulation = COALESCE(_circulation, circulation)
+WHERE id = _id;
 END;
 $$;
 
@@ -818,8 +816,8 @@ CREATE PROCEDURE update_materials(_id int, _format varchar)
 AS
 $$
 BEGIN
-    UPDATE materials
-    SET format = _format
+UPDATE materials
+SET format = _format
     WHERE id = _id;
 END;
 $$;
@@ -830,8 +828,8 @@ CREATE PROCEDURE update_languages(_id int, _name varchar)
 AS
 $$
 BEGIN
-    UPDATE languages
-    SET name = _name
+UPDATE languages
+SET name = _name
     WHERE id = _id;
 END;
 $$;
@@ -842,10 +840,10 @@ CREATE PROCEDURE update_genres(_id int, _name varchar, _description varchar)
 AS
 $$
 BEGIN
-    UPDATE genres
-    SET name = COALESCE(_name, name),
-        description = COALESCE(_description, description)
-    WHERE id = _id;
+UPDATE genres
+SET name = COALESCE(_name, name),
+    description = COALESCE(_description, description)
+WHERE id = _id;
 END;
 $$;
 
@@ -856,10 +854,10 @@ CREATE PROCEDURE update_electronic_publications(_id int, _link varchar, _size in
 AS
 $$
 BEGIN
-    UPDATE electronic_publications
-    SET link = COALESCE(_link, link),
-        size = COALESCE(_size, size)
-    WHERE id = _id;
+UPDATE electronic_publications
+SET link = COALESCE(_link, link),
+    size = COALESCE(_size, size)
+WHERE id = _id;
 END;
 $$;
 
@@ -870,9 +868,9 @@ CREATE PROCEDURE update_borrowings(_id int)
 AS
 $$
 BEGIN
-    UPDATE borrowings
-    SET return_date = NOW()
-    WHERE id = _id;
+UPDATE borrowings
+SET return_date = NOW()
+WHERE id = _id;
 END;
 $$;
 
@@ -882,10 +880,10 @@ CREATE PROCEDURE update_book_origins(_id int, _author_id varchar, _name varchar)
 AS
 $$
 BEGIN
-    UPDATE book_origins
-    SET author_id = COALESCE(_author_id, author_id),
-        name = COALESCE(_name, name)
-    WHERE id = _id;
+UPDATE book_origins
+SET author_id = COALESCE(_author_id, author_id),
+    name = COALESCE(_name, name)
+WHERE id = _id;
 END;
 $$;
 
@@ -896,13 +894,13 @@ CREATE PROCEDURE update_authors(_id int, _first_name varchar, _last_name varchar
 AS
 $$
 BEGIN
-    UPDATE authors
-    SET first_name = COALESCE(_first_name, first_name),
-        last_name = COALESCE(_last_name, last_name),
-        date_of_birth = COALESCE(_date_of_birth, date_of_birth)::date,
+UPDATE authors
+SET first_name = COALESCE(_first_name, first_name),
+    last_name = COALESCE(_last_name, last_name),
+    date_of_birth = COALESCE(_date_of_birth, date_of_birth)::date,
         nationality = COALESCE(_nationality, nationality),
         biography = COALESCE(_biography, biography)
-    WHERE id = _id;
+WHERE id = _id;
 END;
 $$;
 
@@ -912,10 +910,10 @@ CREATE PROCEDURE update_audio_books(_id int, _narrator varchar, _duration int)
 AS
 $$
 BEGIN
-    UPDATE audio_books
-    SET narrator = COALESCE(_narrator, narrator),
-        duration = COALESCE(_duration, duration)
-    WHERE id = _id;
+UPDATE audio_books
+SET narrator = COALESCE(_narrator, narrator),
+    duration = COALESCE(_duration, duration)
+WHERE id = _id;
 END;
 $$;
 
@@ -926,16 +924,16 @@ CREATE OR REPLACE PROCEDURE soft_delete(_id int, _table_name varchar)
 AS
 $$
 DECLARE
-    table_exists boolean;
+table_exists boolean;
 BEGIN
-    EXECUTE format('SELECT EXISTS(SELECT 1 FROM information_schema.tables WHERE table_name = %L)', _table_name)
-        INTO table_exists;
+EXECUTE format('SELECT EXISTS(SELECT 1 FROM information_schema.tables WHERE table_name = %L)', _table_name)
+    INTO table_exists;
 
-    IF NOT table_exists THEN
+IF NOT table_exists THEN
         RAISE EXCEPTION 'Table % does not exist', _table_name;
-    END IF;
+END IF;
 
-    EXECUTE format('UPDATE %I SET deleted_at = NOW() WHERE id = %s', _table_name, _id);
+EXECUTE format('UPDATE %I SET deleted_at = NOW() WHERE id = %s', _table_name, _id);
 END;
 $$;
 
@@ -946,16 +944,16 @@ CREATE OR REPLACE PROCEDURE hard_delete(_id int, _table_name varchar)
 AS
 $$
 DECLARE
-    table_exists boolean;
+table_exists boolean;
 BEGIN
-    EXECUTE format('SELECT EXISTS(SELECT 1 FROM information_schema.tables WHERE table_name = %L)', _table_name)
-        INTO table_exists;
+EXECUTE format('SELECT EXISTS(SELECT 1 FROM information_schema.tables WHERE table_name = %L)', _table_name)
+    INTO table_exists;
 
-    IF NOT table_exists THEN
+IF NOT table_exists THEN
         RAISE EXCEPTION 'Table % does not exist', _table_name;
-    END IF;
+END IF;
 
-    EXECUTE format('DELETE FROM %I WHERE id = %s', _table_name, _id);
+EXECUTE format('DELETE FROM %I WHERE id = %s', _table_name, _id);
 END;
 $$;
 

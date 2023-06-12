@@ -45,6 +45,7 @@ SELECT pb.id                                                   as physical_book_
        s.score                                                 as score,
        a.first_name                                            as author_first_name,
        a.last_name                                             as author_last_name,
+       p.image_name                                            as image_name,
        (b.publication_id IS NULL OR b.return_date IS NOT NULL) as is_available
 FROM physical_books pb
          INNER JOIN physical_publications pp ON pb.physical_publication_id = pp.id
