@@ -22,8 +22,14 @@ public class DashboardController {
 
     @GetMapping(value = "/counts")
     @ResponseBody
-    public HashMap<String, Integer> getBorrowings(){
+    public HashMap<String, Integer> getCounts(){
         return dashboardService.getCounts();
+    }
+
+    @GetMapping(value = "/availabilities")
+    @ResponseBody
+    public HashMap<String, Integer> getAvailableCounts(){
+        return dashboardService.getAvailableCounts();
     }
 
     @GetMapping(value = "/highest-rated-publications")

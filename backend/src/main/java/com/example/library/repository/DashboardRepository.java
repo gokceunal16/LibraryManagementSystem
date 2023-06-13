@@ -234,4 +234,117 @@ public class DashboardRepository {
 
         return list;
     }
+
+    public int getAvailablePublicationCount() {
+        int count = 0;
+
+        try (Connection connection = DatabaseManager.getConnection()) {
+            String query = "SELECT COUNT(*) as count " +
+                    "FROM publications p " +
+                    "WHERE NOT EXISTS ( " +
+                    "        SELECT " +
+                    "        FROM borrowings b " +
+                    "        WHERE b.publication_id = p.id " +
+                    "          AND b.return_date is null " +
+                    "    );";
+            PreparedStatement statement = connection.prepareStatement(query);
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                count = resultSet.getInt("count");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return count;
+    }
+
+    public int getAvailableNewspaperCount() {
+        int count = 0;
+
+        try (Connection connection = DatabaseManager.getConnection()) {
+            String query = "WITH np AS (SELECT * " +
+                    "    FROM newspapers " +
+                    "        INNER JOIN physical_publications ON newspapers.physical_publication_id = physical_publications.id " +
+                    "        INNER JOIN publications ON physical_publications.publication_id = publications.id) " +
+                    "SELECT COUNT(*) as count FROM " +
+                    "np WHERE NOT EXISTS ( " +
+                    "    SELECT " +
+                    "    FROM borrowings b " +
+                    "    WHERE b.publication_id = np.publication_id " +
+                    "    AND b.return_date is null " +
+                    "    )";
+            PreparedStatement statement = connection.prepareStatement(query);
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                count = resultSet.getInt("count");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return count;
+    }
+
+    public int getAvailablePhysicalBookCount() {
+        int count = 0;
+
+        try (Connection connection = DatabaseManager.getConnection()) {
+            String query = "WITH np AS (SELECT * " +
+                    "       FROM physical_books " +
+                    "        INNER JOIN physical_publications ON physical_books.physical_publication_id = physical_publications.id " +
+                    "        INNER JOIN publications ON physical_publications.publication_id = publications.id) " +
+                    "SELECT COUNT(*) as count FROM " +
+                    "np WHERE NOT EXISTS ( " +
+                    "    SELECT " +
+                    "    FROM borrowings b " +
+                    "    WHERE b.publication_id = np.publication_id " +
+                    "    AND b.return_date is null " +
+                    "    )";
+            PreparedStatement statement = connection.prepareStatement(query);
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                count = resultSet.getInt("count");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return count;
+    }
+
+    public int getAvailableMaterialCount() {
+        int count = 0;
+
+        try (Connection connection = DatabaseManager.getConnection()) {
+            String query = "WITH np AS (SELECT * " +
+                    "    FROM   materials " +
+                    "        INNER JOIN physical_publications ON materials.physical_publication_id = physical_publications.id " +
+                    "        INNER JOIN publications ON physical_publications.publication_id = publications.id) " +
+                    "SELECT COUNT(*) as count FROM " +
+                    "np WHERE NOT EXISTS ( " +
+                    "    SELECT " +
+                    "    FROM borrowings b " +
+                    "    WHERE b.publication_id = np.publication_id " +
+                    "    AND b.return_date is null " +
+                    "    )";
+            PreparedStatement statement = connection.prepareStatement(query);
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                count = resultSet.getInt("count");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return count;
+    }
 }

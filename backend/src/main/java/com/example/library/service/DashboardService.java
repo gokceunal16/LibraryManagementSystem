@@ -28,6 +28,16 @@ public class DashboardService {
         return counts;
     }
 
+    public HashMap<String, Integer> getAvailableCounts() {
+        HashMap<String, Integer> counts = new HashMap<>();
+        counts.put("publications", dashboardRepository.getAvailablePublicationCount());
+        counts.put("newspapers", dashboardRepository.getAvailableNewspaperCount());
+        counts.put("physical_books", dashboardRepository.getAvailablePhysicalBookCount());
+        counts.put("materials", dashboardRepository.getAvailableMaterialCount());
+
+        return counts;
+    }
+
     public List<DashboardRepository.PublicationScore> getHighestRatedPublications() {
         return dashboardRepository.getHighestRatedPublications();
     }
