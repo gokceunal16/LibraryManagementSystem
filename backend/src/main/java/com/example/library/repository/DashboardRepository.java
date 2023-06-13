@@ -347,4 +347,43 @@ public class DashboardRepository {
 
         return count;
     }
+
+    @Data
+    @AllArgsConstructor
+    public static class RoomName {
+        private String name;
+    }
+
+
+    public List<Object> getAvailableRooms() {
+        List<Object> list = new ArrayList<>();
+
+        try (Connection connection = DatabaseManager.getConnection()) {
+            String query = "SELECT name " +
+                    "FROM rooms " +
+                    "WHERE NOT EXISTS ( " +
+                    "    SELECT " +
+                    "    FROM reservations " +
+                    "    INNER JOIN time_slots ts on reservations.time_slot_id = ts.id " +
+                    "    WHERE reservations.room_id = rooms.id " +
+                    "    AND (reservations.date::timestamp + ts.end_time::time) > NOW() " +
+                    "    ) ORDER BY name ";
+            PreparedStatement statement = connection.prepareStatement(query);
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                RoomName r = new RoomName(
+                        resultSet.getString("name")
+                );
+                list.add(r);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return list;
+    }
+
+
 }

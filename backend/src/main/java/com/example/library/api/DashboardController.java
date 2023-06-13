@@ -43,4 +43,10 @@ public class DashboardController {
     public List<DashboardRepository.PublicationScore> getHighestRatedPublicationsInLastThreeMonths(){
         return dashboardService.getHighestRatedPublicationsInLastThreeMonths();
     }
+
+    @GetMapping(value = "/available-room-names")
+    @ResponseBody
+    public List<Object> getAvailableRooms(){
+        return dashboardService.getAvailableRooms();
+    }
 }

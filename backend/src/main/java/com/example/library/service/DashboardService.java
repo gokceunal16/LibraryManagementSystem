@@ -45,4 +45,8 @@ public class DashboardService {
     public  List<DashboardRepository.PublicationScore> getHighestRatedPublicationsInLastThreeMonths() {
         return dashboardRepository.getHighestRatedPublicationsInLastThreeMonths();
     }
+
+    public List<Object> getAvailableRooms() {
+        return dashboardRepository.getAvailableRooms();
+    }
 }
