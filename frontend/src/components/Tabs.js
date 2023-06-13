@@ -7,6 +7,7 @@ import Box from '@mui/material/Box';
 import Services from "../services/Services";
 import {useEffect, useState} from "react";
 import TableOperations from "../services/TableOperations";
+import {useAuth} from "../utils/hooks/useAuth";
 
 function TabPanel(props) {
 
@@ -38,8 +39,9 @@ function a11yProps(index) {
 const TabsComponent = () => {
     const [value, setValue] = useState(0);
     const [tableNames, setTableNames] = useState([]);
+    const {token}=useAuth();
     useEffect(() => {
-        Services.getTableNames().then(response => {
+        Services.getTableNames(token).then(response => {
             console.log(response.data)
             setTableNames(response.data);
 

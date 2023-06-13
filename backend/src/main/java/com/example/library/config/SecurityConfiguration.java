@@ -33,30 +33,10 @@ public class SecurityConfiguration {
 
                 .requestMatchers(new AntPathRequestMatcher("/**", HttpMethod.GET.toString())).hasAnyRole("USER", "ADMIN")
 
-
-                .requestMatchers(new AntPathRequestMatcher("/borrowing/**", HttpMethod.POST.toString())).hasAnyRole("USER", "ADMIN")
-                .requestMatchers(new AntPathRequestMatcher("/borrowing/**", HttpMethod.PUT.toString())).hasAnyRole("USER", "ADMIN")
-                .requestMatchers(new AntPathRequestMatcher("/borrowing/**", HttpMethod.DELETE.toString())).hasAnyRole("USER", "ADMIN")
-                .requestMatchers(new AntPathRequestMatcher("/publication_available_notification_request/**", HttpMethod.POST.toString())).hasAnyRole("USER", "ADMIN")
-                .requestMatchers(new AntPathRequestMatcher("/publication_available_notification_request/**", HttpMethod.PUT.toString())).hasAnyRole("USER", "ADMIN")
-                .requestMatchers(new AntPathRequestMatcher("/publication_available_notification_request/**", HttpMethod.DELETE.toString())).hasAnyRole("USER", "ADMIN")
-                .requestMatchers(new AntPathRequestMatcher("/rating/**", HttpMethod.POST.toString())).hasAnyRole("USER", "ADMIN")
-                .requestMatchers(new AntPathRequestMatcher("/rating/**", HttpMethod.PUT.toString())).hasAnyRole("USER", "ADMIN")
-                .requestMatchers(new AntPathRequestMatcher("/rating/**", HttpMethod.DELETE.toString())).hasAnyRole("USER", "ADMIN")
-                .requestMatchers(new AntPathRequestMatcher("/reservation/**", HttpMethod.POST.toString())).hasAnyRole("USER", "ADMIN")
-                .requestMatchers(new AntPathRequestMatcher("/reservation/**", HttpMethod.PUT.toString())).hasAnyRole("USER", "ADMIN")
-                .requestMatchers(new AntPathRequestMatcher("/reservation/**", HttpMethod.DELETE.toString())).hasAnyRole("USER", "ADMIN")
-                .requestMatchers(new AntPathRequestMatcher("/review/**", HttpMethod.POST.toString())).hasAnyRole("USER", "ADMIN")
-                .requestMatchers(new AntPathRequestMatcher("/review/**", HttpMethod.PUT.toString())).hasAnyRole("USER", "ADMIN")
-                .requestMatchers(new AntPathRequestMatcher("/review/**", HttpMethod.DELETE.toString())).hasAnyRole("USER", "ADMIN")
-
-                .requestMatchers(new AntPathRequestMatcher("/user/**", HttpMethod.POST.toString())).hasRole("USER")
-                .requestMatchers(new AntPathRequestMatcher("/user/**", HttpMethod.PUT.toString())).hasRole("USER")
-                .requestMatchers(new AntPathRequestMatcher("/user/**", HttpMethod.PUT.toString())).hasRole("USER")
-                .requestMatchers("auth/**")// TODO change url
+                .requestMatchers("/**")
                 .permitAll()
                 .anyRequest()
-                .hasRole("ADMIN")
+                .permitAll()
                 .and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
@@ -66,5 +46,4 @@ public class SecurityConfiguration {
 
 
         return http.build();
-    }
-}
+    }}

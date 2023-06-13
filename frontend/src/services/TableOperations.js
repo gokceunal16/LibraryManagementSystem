@@ -1,11 +1,13 @@
 import React, {useEffect, useState} from 'react';
 import Services from "./Services";
 import Table from "../components/Table";
+import {useAuth} from "../utils/hooks/useAuth";
 
 const TableOperations = (props) => {
 
     const [list, setList] = useState([]);
     const [listOnUpdate, setListOnUpdate] = useState(false);
+    const {token}=useAuth();
 
     const handleUpdate = () => {
         setListOnUpdate(!listOnUpdate);
@@ -13,7 +15,7 @@ const TableOperations = (props) => {
     }
     useEffect(() => {
         // declare the data fetching function
-        Services.getTable(props.tableName)
+        Services.getTable(props.tableName, token)
             .then((res) => {
                 console.log(res.data);
                 setList(res.data);

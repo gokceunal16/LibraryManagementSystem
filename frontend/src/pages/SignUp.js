@@ -19,7 +19,7 @@ function SignUp() {
                 city: values.city,
                 street: values.street,
                 postal_code: values.postalCode,
-                role_id: 1, // Set the role_id value as desired
+                role_id: 2,
             };
             const response = await axios.post(`http://localhost:8080/auth/register`, mappedValues);
             console.log(response);

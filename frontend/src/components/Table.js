@@ -9,11 +9,14 @@ import {
 import {Delete, Edit} from '@mui/icons-material';
 import Services from "../services/Services";
 import CreateNewRecord from "./CreateNewRecord";
+import {useAuth} from "../utils/hooks/useAuth";
 
 const Table = (props) => {
     const [createModalOpen, setCreateModalOpen] = useState(false);
     const [tableData, setTableData] = useState(props.tableData);
     const [validationErrors, setValidationErrors] = useState({});
+    const {token}=useAuth();
+
 
 
     console.log("içerideyim!!!: ", props.tableData)
@@ -23,7 +26,7 @@ const Table = (props) => {
 
     const handleCreateNewRow = (values) => {
         console.log("author", values);
-        Services.addRecord(props.tableName.slice(0, -1), values).then(() => {
+        Services.addRecord(props.tableName.slice(0, -1), values, token).then(() => {
             props.handleUpdate()
         });
     };
@@ -32,7 +35,7 @@ const Table = (props) => {
         if (!Object.keys(validationErrors).length) {
             tableData[row.index] = values;
             //send/receive api updates here, then refetch or update local table data for re-render
-            Services.updateRecord(props.tableName.slice(0, -1), row.getValue('id'), values).then(() => {
+            Services.updateRecord(props.tableName.slice(0, -1), row.getValue('id'), values, token).then(() => {
                 props.handleUpdate()
             })
             exitEditingMode(); //required to exit editing mode and close modal
@@ -51,7 +54,7 @@ const Table = (props) => {
             ) {
                 return;
             }
-            Services.deleteRecord(props.tableName.slice(0, -1), row.getValue('id')).then(() => {
+            Services.deleteRecord(props.tableName.slice(0, -1), row.getValue('id'), token).then(() => {
                 props.handleUpdate()
             })
 

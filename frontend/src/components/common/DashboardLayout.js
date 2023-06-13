@@ -1,14 +1,80 @@
-import {Layout, Menu, theme} from 'antd';
-import {useState} from 'react';
-import menuItems from "../../routes/links/admin-menu-links";
+import {Layout, Menu, Spin, theme} from 'antd';
+import React, {useEffect, useState} from 'react';
 import {useAuth} from "../../utils/hooks/useAuth";
+import {Link} from "react-router-dom";
+import {
+    BookOutlined,
+    DashboardOutlined, DeploymentUnitOutlined,
+    LogoutOutlined,
+    ReadOutlined,
+    ShareAltOutlined,
+    TeamOutlined
+} from "@ant-design/icons";
 
 const {Header, Content, Footer, Sider} = Layout;
 
 
 const DashboardLayout = (props) => {
     const [collapsed, setCollapsed] = useState(false);
-    const {user, logout} = useAuth();
+    const [loading, setLoading] = useState(true);
+    const {userRole, logout} = useAuth();
+
+    const adminMenu = [
+        {
+            label: <Link to="/dashboard">Dashboard</Link>,
+            icon: <DashboardOutlined/>,
+            key: '1',
+        },
+        {
+            label: <Link to="/db-manager">Manage Database</Link>,
+            icon:<DeploymentUnitOutlined/>,
+            key: '5',
+        },
+
+        {
+            label: "Borrowings",
+            icon: <ShareAltOutlined/>,
+            key: 'sub3',
+            children: [
+                {
+                    label: <Link to="/borrowing-records">Borrowing Records</Link>,
+                    key: '8',
+                },
+            ],
+        },
+        {
+            label: <div onClick={logout}> Logout</div>,
+            icon: <LogoutOutlined/>,
+            key: '10'
+        }
+    ];
+    const userMenu =  [
+        {
+            label: <Link to="/dashboard">Dashboard</Link>,
+            icon: <DashboardOutlined/>,
+            key: '1',
+        },
+        {
+            label: <Link to="/library-reservation">Library Reservation</Link>,
+            icon: <BookOutlined/>,
+            key: '2',
+        },
+        {
+            label: <Link to="/book-search">Book Search</Link>,
+            icon: <ReadOutlined/>,
+            key: '5'
+
+        },
+        {
+            label: <Link to="/history">History</Link>,
+            key: '33',
+        },
+        {
+            label: <div onClick={logout}> Logout</div>,
+            icon: <LogoutOutlined/>,
+            key: '10'
+        }
+    ];
 
     const {
         token: {colorBgContainer},
@@ -31,24 +97,20 @@ const DashboardLayout = (props) => {
                 }}>
                     BBM473 LIBRARY SYSTEM
                 </div>
-                <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" items={menuItems(logout)}/>
+                <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" items={userRole===1 ? adminMenu : userMenu
+                }/>
             </Sider>
             <Layout>
-                <Header
-                    style={{
-                        padding: 0,
-                        background: colorBgContainer,
-                    }}
-                />
+
                 <Content
                     style={{
-                        margin: '0 16px',
+                        margin: '32px 0',
                     }}
                 >
 
                     <div
                         style={{
-                            padding: 24,
+                            padding: '3rem',
                             minHeight: 360,
                             background: colorBgContainer,
                         }}

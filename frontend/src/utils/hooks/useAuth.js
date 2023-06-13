@@ -4,27 +4,24 @@ import {useNavigate} from "react-router";
 import {message} from "antd";
 import axios from "axios";
 
+
 const AuthContext = createContext();
 
 export const AuthProvider = ({children}) => {
         const [token, setToken] = useLocalStorage("token", null);
         const [user, setUser] = useLocalStorage("user", null);
+        const [userRole, setUserRole] = useLocalStorage("role", null);
         const navigate = useNavigate();
 
-        const login = async (data) => {
+
+    const login = async (data) => {
             const response = await axios.post("http://localhost:8080/auth/login", data).then(console.log("oldu"));
-            console.log("response", response);
-            message.success("Login Successful!")
 
             if (response.status === 200) {
                 setToken(response.data.token);
-                // setUser(response.data.id);
-            }
-
-            if (response.data.role === ("User")) {
-                navigate("/dashboard", {replace: true})
-
-            } else {
+                setUserRole(response.data.role_id);
+                setUser(response.data.user_id);
+                message.success("Login Successful!");
                 navigate("/dashboard", {replace: true})
             }
 
@@ -33,6 +30,7 @@ export const AuthProvider = ({children}) => {
         const logout = () => {
             setToken(null);
             setUser(null);
+            setUserRole(null)
             message.success("Logout Successful!")
             navigate("/login", {replace: true});
         };
@@ -42,6 +40,7 @@ export const AuthProvider = ({children}) => {
                 token,
                 user,
                 setUser,
+                userRole,
                 login,
                 logout
             }),

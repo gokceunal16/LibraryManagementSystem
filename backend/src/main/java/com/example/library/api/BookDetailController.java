@@ -21,7 +21,6 @@ public class BookDetailController {
     @GetMapping(value = "/book_details")
     @ResponseBody
     public List<Object> getReservations(){
-
         return bookDetailService.getBookDetails();
     }
 

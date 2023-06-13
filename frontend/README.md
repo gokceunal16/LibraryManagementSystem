@@ -44,6 +44,7 @@ Before running this project, ensure that you have the following prerequisites in
 3. Install the dependencies for both the frontend and backend:
    ```bash
    cd frontend
+   npm install react-scripts --save
    npm install
 
    cd ../backend

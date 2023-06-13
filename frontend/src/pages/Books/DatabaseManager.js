@@ -3,7 +3,7 @@ import DashboardLayout from "../../components/common/DashboardLayout";
 import TableOperations from "../../services/TableOperations";
 import Tabs from "../../components/Tabs";
 
-const BookRecords = () => {
+const DatabaseManager = () => {
     return (
         <DashboardLayout>
             <Tabs/>
@@ -11,4 +11,4 @@ const BookRecords = () => {
     );
 };
 
-export default BookRecords;
+export default DatabaseManager;

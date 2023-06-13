@@ -11,7 +11,7 @@ public class CorsConfiguration implements WebMvcConfigurer {
         registry.addMapping("/**")
                 .allowedOrigins("http://localhost:3000") // Add your frontend server URL here
                 .allowedMethods("GET", "POST", "PUT", "DELETE")
-                .allowedHeaders("*")
+                .allowedHeaders("Authorization", "Content-Type") // Add the Authorization header
                 .allowCredentials(true);
     }
 }
